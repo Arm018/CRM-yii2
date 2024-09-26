@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2158b2fbf2c2f964ea5d76c3986297c9",
+    "content-hash": "72f43006fe5ea93d8860306a50c45af4",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1281,6 +1281,73 @@
                 }
             ],
             "time": "2024-04-18T09:32:20+00:00"
+        },
+        {
+            "name": "yii2tech/csv-grid",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yii2tech/csv-grid.git",
+                "reference": "6d10b2b7590affd95ae2bacf20562c24d59d0ece"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yii2tech/csv-grid/zipball/6d10b2b7590affd95ae2bacf20562c24d59d0ece",
+                "reference": "6d10b2b7590affd95ae2bacf20562c24d59d0ece",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.13"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.27 || ^5.0 || ^6.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii2tech\\csvgrid\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "Yii2 extension data export to CSV file",
+            "keywords": [
+                "csv",
+                "export",
+                "large data",
+                "yii2"
+            ],
+            "support": {
+                "forum": "http://www.yiiframework.com/forum/",
+                "issues": "https://github.com/yii2tech/csv-grid/issues",
+                "source": "https://github.com/yii2tech/csv-grid",
+                "wiki": "https://github.com/yii2tech/csv-grid/wiki"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/klimov-paul",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/klimov_paul",
+                    "type": "patreon"
+                }
+            ],
+            "abandoned": true,
+            "time": "2020-03-04T11:17:11+00:00"
         },
         {
             "name": "yiisoft/yii2",

@@ -4,9 +4,14 @@ namespace backend\controllers;
 
 use common\models\Order;
 use backend\models\OrderSearch;
+use common\models\OrderHistory;
+use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use yii2tech\csvgrid\CsvGrid;
 
 /**
  * OrderController implements the CRUD actions for Order model.
@@ -93,7 +98,13 @@ class OrderController extends Controller
     {
         $model = $this->findModel($id);
 
+        $oldAttributes = $model->getAttributes();
+
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $newAttributes = $model->getAttributes();
+
+            $this->logOrderHistory($model, $oldAttributes, $newAttributes);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -131,4 +142,54 @@ class OrderController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    /**
+     * Logs changes in the OrderHistory model
+     * @param Order $model the order being updated
+     * @param array $oldAttributes the original attributes before update
+     * @param array $newAttributes the updated attributes after update
+     */
+    protected function logOrderHistory($model, $oldAttributes, $newAttributes)
+    {
+        foreach ($newAttributes as $attribute => $newValue) {
+            if ($oldAttributes[$attribute] != $newValue) {
+                $history = new OrderHistory();
+                $history->order_id = $model->id;
+                $history->attribute = $attribute;
+                $history->old_value = (string)$oldAttributes[$attribute];
+                $history->new_value = (string)$newValue;
+                $history->updated_by = Yii::$app->user->identity->username;
+                $history->save();
+            }
+        }
+    }
+
+    public function actionExportCsv()
+    {
+        $searchModel = new OrderSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $orders = $dataProvider->getModels();
+
+        Yii::$app->response->format = Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'text/csv; charset=UTF-8');
+        Yii::$app->response->headers->add('Content-Disposition', 'attachment; filename="orders.csv"');
+
+        $output = fopen('php://output', 'w');
+        fputcsv($output, ['Order Name', 'Product', 'Price', 'Telephone']);
+
+        foreach ($orders as $order) {
+            fputcsv($output, [
+                $order->order_name,
+                $order->product_name,
+                $order->price,
+                $order->phone,
+            ]);
+        }
+
+        fclose($output);
+        return Yii::$app->response;
+    }
+
+
 }

@@ -41,7 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php ActiveForm::end(); ?>
 
-        <!-- Display errors -->
         <?php if ($model->hasErrors()): ?>
             <div class="alert alert-danger">
                 <?= Html::errorSummary($model); ?>
